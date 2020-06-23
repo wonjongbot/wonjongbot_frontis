@@ -1,0 +1,10 @@
+D:\이원종\프론티스\c#\Calculator\Calculator\bin\Debug\Calculator.exe.config
+D:\이원종\프론티스\c#\Calculator\Calculator\bin\Debug\Calculator.exe
+D:\이원종\프론티스\c#\Calculator\Calculator\bin\Debug\Calculator.pdb
+D:\이원종\프론티스\c#\Calculator\Calculator\obj\Debug\Calculator.csprojAssemblyReference.cache
+D:\이원종\프론티스\c#\Calculator\Calculator\obj\Debug\Calculator.Calculator.resources
+D:\이원종\프론티스\c#\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+D:\이원종\프론티스\c#\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+D:\이원종\프론티스\c#\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\이원종\프론티스\c#\Calculator\Calculator\obj\Debug\Calculator.exe
+D:\이원종\프론티스\c#\Calculator\Calculator\obj\Debug\Calculator.pdb
