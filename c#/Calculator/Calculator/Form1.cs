@@ -31,8 +31,13 @@ namespace Calculator
                 if (!textdisp.Text.Contains("."))
                     textdisp.Text = textdisp.Text + num.Text;
             }
+            else if (textdisp.Text == "invalid")
+            {
+                textdisp.Text = "";
+            }
             else
                 textdisp.Text = textdisp.Text + num.Text;
+
         }
 
         private void btnclr_Click(object sender, EventArgs e)
@@ -90,61 +95,106 @@ namespace Calculator
             indicator.Text = "";
             //saves calculation
             checker.Text = save + " " + textdisp.Text + " = ";
-
-            switch(operation)
+            string inputvalue = textdisp.Text;
+            switch (operation)
             {
                 case "+":
                     textdisp.Text = (results + Double.Parse(textdisp.Text)).ToString();
-                    checker.Text = checker.Text + textdisp.Text;
+                    checker.Text = checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
                 case "-":
                     textdisp.Text = (results - Double.Parse(textdisp.Text)).ToString();
-                    checker.Text = checker.Text + textdisp.Text.Substring(0, 10);
+                    checker.Text = checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
-                case "/":
-                    textdisp.Text = (results / Double.Parse(textdisp.Text)).ToString();
-                    checker.Text = checker.Text + textdisp.Text;
+                case "÷":
+                    if (textdisp.Text == "0")
+                    {
+                        textdisp.Text = "invalid";
+                        MessageBox.Show("invalid");
+                        checker.Text = checker.Text + textdisp.Text;
+                    }
+                    else
+                    {
+                        textdisp.Text = (results / Double.Parse(textdisp.Text)).ToString();
+                        checker.Text = checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
+                    }
                     break;
                 case "×":
                     textdisp.Text = (results * Double.Parse(textdisp.Text)).ToString();
-                    checker.Text = checker.Text + textdisp.Text;
+                    checker.Text = checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
                 case "%":
                     textdisp.Text = (results % Double.Parse(textdisp.Text)).ToString();
-                    checker.Text = checker.Text + textdisp.Text;
+                    checker.Text = checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
                 case "^":
-                    textdisp.Text = (Math.Pow(results, Double.Parse(textdisp.Text))).ToString();
-                    checker.Text = checker.Text + textdisp.Text;
+                    if (results == 0 && Double.Parse(textdisp.Text) == -1)
+                    {
+                        textdisp.Text = "invalid";
+                        checker.Text = checker.Text + textdisp.Text;
+                    }
+                    else
+                    {
+                        textdisp.Text = (Math.Pow(results, Double.Parse(textdisp.Text))).ToString();
+                        checker.Text = checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
+                    }
                     break;
                 case "√":
-                    textdisp.Text = (Math.Sqrt(results)).ToString();
-                    checker.Text = "√" + checker.Text + textdisp.Text;
+                    if (results <= 0)
+                    {
+                        textdisp.Text = "invalid";
+                        checker.Text = "√" + checker.Text + textdisp.Text;
+                    }
+                    else
+                    {
+                        textdisp.Text = (Math.Sqrt(results)).ToString();
+                        checker.Text = "√" + checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
+                    }
                     break;
                 case "^-1":
-                    textdisp.Text = (1 / results).ToString();
-                    checker.Text = checker.Text + "^-1" + textdisp.Text;
+                    if (results == 0)
+                    {
+                        textdisp.Text = "invalid";
+                        checker.Text = checker.Text + "^-1" + " = " + textdisp.Text;
+                    }
+                    else
+                    {
+                        textdisp.Text = (1 / results).ToString();
+                        checker.Text = checker.Text + "^-1" + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
+                    }
                     break;
                 case "sin":
+                    inputvalue = textdisp.Text;
                     textdisp.Text = (Math.Sin(results*(Math.PI)/180)).ToString();
-                    checker.Text = "sin" + checker.Text + textdisp.Text.Substring(0, 10);
+                    checker.Text = "sin " + inputvalue + " = " + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
                 case "cos":
+                    inputvalue = textdisp.Text;
                     textdisp.Text = (Math.Cos(results * (Math.PI) / 180)).ToString();
-                    checker.Text = "cos" + checker.Text + textdisp.Text.Substring(0, 10);
+                    checker.Text = "cos " + inputvalue + " = " + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
                 case "tan":
+                    inputvalue = textdisp.Text;
                     textdisp.Text = (Math.Tan(results * (Math.PI) / 180)).ToString();
-                    checker.Text = "tan" + checker.Text + textdisp.Text.Substring(0, 10);
+                    checker.Text = "tan " + inputvalue + " = " + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
                 case "ln":
-                    textdisp.Text = (Math.Log(results)).ToString();
-                    checker.Text = "ln" + checker.Text + textdisp.Text.Substring(0, 10);
+                    if (results <= 0)
+                    {
+                        textdisp.Text = "invalid";
+                        checker.Text = "ln" + checker.Text + textdisp.Text;
+                    }
+
+                    else
+                    {
+                        textdisp.Text = (Math.Log(results)).ToString();
+                        checker.Text = "ln" + checker.Text + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
+                    }
                     break;
             }
-            MySqlCommand cmd = new MySqlCommand("insert into calculations (calculation)Values('"+checker.Text+"')",connection);
+            DateTime today = DateTime.Now;
             connection.Open();
-            cmd.ExecuteNonQuery();
+            MySqlCommand cmd = new MySqlCommand("insert into calculations (calculation)Values('"+checker.Text+"',connection");
             connection.Close();
             populategrid();
         }
@@ -193,7 +243,7 @@ namespace Calculator
             string selectQuery = "SELECT * FROM calculations";
 
             DataTable table = new DataTable();
-            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT *FROM calculations.calculations", connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT *FROM calculations.calculations, connection");
             adapter.Fill(table);
             dataGridView1.DataSource = table;
         }
