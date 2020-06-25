@@ -7,22 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace Calculator
 {
     public partial class Calculator : Form
     {
-        MySqlConnection connection = new MySqlConnection("datasource = localhost; port = 3306; username = root; password = frontis; database = calculations");
-        MySqlCommand command;
         Double results = 0;
         String operation = "";
-        string save;
-
+        bool enter_value;
         public Calculator()
         {
             InitializeComponent();
         }
+
         private void button_pressed(object sender, EventArgs e)
         {
             Button num = (Button)sender;
@@ -43,6 +40,7 @@ namespace Calculator
         private void btnclr_Click(object sender, EventArgs e)
         {
             textdisp.Text = "";
+            indicator.Text = "";
         }
 
         private void arithmetic(object sender, EventArgs e)
@@ -50,21 +48,8 @@ namespace Calculator
             Button num = (Button)sender;
             operation = num.Text;
             results = Double.Parse(textdisp.Text);
-
-            if (textdisp.Text == "")
-            {
-                results = 0;
-                MessageBox.Show("Please enter a numeric value first");
-                textdisp.Text = "";
-                indicator.Text = "";
-            }
-                
-            else
-            {
-                textdisp.Text = "";
-                indicator.Text = System.Convert.ToString(results) + " " + operation;
-                save = indicator.Text;
-            }
+            textdisp.Text = "";
+            indicator.Text = System.Convert.ToString(results) + " " + operation;
 
         }
 
@@ -77,22 +62,15 @@ namespace Calculator
             Button num = (Button)sender;
             operation = num.Text;
             indicator.Text = operation;
-            if(textdisp.Text == "")
-            {
-                results = 0;
-                MessageBox.Show("Please enter a numeric value first");
-                textdisp.Text = "";
-                indicator.Text = "";
-            }
-            else
-            {
-                results = Double.Parse(textdisp.Text);
-            }
+            results = Double.Parse(textdisp.Text);
         }
 
         private void enter_pressed(object sender, EventArgs e)
         {
             indicator.Text = "";
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
             //saves calculation
             checker.Text = save + " " + textdisp.Text + " = ";
             string inputvalue = textdisp.Text;
@@ -162,20 +140,91 @@ namespace Calculator
                         textdisp.Text = (1 / results).ToString();
                         checker.Text = checker.Text + "^-1" + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     }
+=======
+=======
+>>>>>>> parent of c9c2f35... mySQL
+            switch(operation)
+            {
+                case "+":
+                    textdisp.Text = (results + Double.Parse(textdisp.Text)).ToString();
+                    break;
+                case "-":
+                    textdisp.Text = (results - Double.Parse(textdisp.Text)).ToString();
+                    break;
+                case "/":
+                    textdisp.Text = (results / Double.Parse(textdisp.Text)).ToString();
+                    break;
+                case "×":
+                    textdisp.Text = (results * Double.Parse(textdisp.Text)).ToString();
+<<<<<<< HEAD
+=======
+            switch(operation)
+            {
+                case "+":
+                    textdisp.Text = (results + Double.Parse(textdisp.Text)).ToString();
+                    break;
+                case "-":
+                    textdisp.Text = (results - Double.Parse(textdisp.Text)).ToString();
+                    break;
+                case "/":
+                    textdisp.Text = (results / Double.Parse(textdisp.Text)).ToString();
+                    break;
+                case "×":
+                    textdisp.Text = (results * Double.Parse(textdisp.Text)).ToString();
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
+                    break;
+                case "^":
+                    textdisp.Text = (Math.Pow(results, Double.Parse(textdisp.Text))).ToString();
+                    break;
+                case "√":
+                    textdisp.Text = (Math.Sqrt(results)).ToString();
+                    break;
+                case "^-1":
+                    textdisp.Text = (1 / results).ToString();
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
                     break;
                 case "sin":
                     inputvalue = textdisp.Text;
                     textdisp.Text = (Math.Sin(results*(Math.PI)/180)).ToString();
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                     checker.Text = "sin " + inputvalue + " = " + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
+=======
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
                     break;
                 case "cos":
                     inputvalue = textdisp.Text;
                     textdisp.Text = (Math.Cos(results * (Math.PI) / 180)).ToString();
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                     checker.Text = "cos " + inputvalue + " = " + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
+=======
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
                     break;
                 case "tan":
                     inputvalue = textdisp.Text;
                     textdisp.Text = (Math.Tan(results * (Math.PI) / 180)).ToString();
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
                     checker.Text = "tan " + inputvalue + " = " + Math.Round(Convert.ToDecimal(textdisp.Text), 3);
                     break;
                 case "ln":
@@ -197,6 +246,18 @@ namespace Calculator
             MySqlCommand cmd = new MySqlCommand("insert into calculations (calculation)Values('"+checker.Text+"',connection");
             connection.Close();
             populategrid();
+=======
+                    break;
+            }
+>>>>>>> parent of c9c2f35... mySQL
+=======
+                    break;
+            }
+>>>>>>> parent of c9c2f35... mySQL
+=======
+                    break;
+            }
+>>>>>>> parent of c9c2f35... mySQL
         }
 
 
@@ -204,6 +265,9 @@ namespace Calculator
         {
             textdisp.Text = "3.14159265359";
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 
         private void negative_pressed(object sender, EventArgs e)
         {
@@ -247,5 +311,11 @@ namespace Calculator
             adapter.Fill(table);
             dataGridView1.DataSource = table;
         }
+=======
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
+=======
+>>>>>>> parent of c9c2f35... mySQL
     }
 }
