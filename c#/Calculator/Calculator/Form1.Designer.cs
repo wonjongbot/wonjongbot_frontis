@@ -64,9 +64,11 @@
             // 
             // textdisp
             // 
+            this.textdisp.BackColor = System.Drawing.SystemColors.Window;
             this.textdisp.Font = new System.Drawing.Font("굴림", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textdisp.Location = new System.Drawing.Point(12, 12);
             this.textdisp.Name = "textdisp";
+            this.textdisp.ReadOnly = true;
             this.textdisp.Size = new System.Drawing.Size(460, 63);
             this.textdisp.TabIndex = 1;
             this.textdisp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -397,14 +399,14 @@
             this.dataGridView1.Location = new System.Drawing.Point(478, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(449, 543);
+            this.dataGridView1.Size = new System.Drawing.Size(494, 543);
             this.dataGridView1.TabIndex = 72;
             // 
             // Calculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(939, 564);
+            this.ClientSize = new System.Drawing.Size(984, 564);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.checker);
             this.Controls.Add(this.modulo_pressed);

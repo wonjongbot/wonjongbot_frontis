@@ -14,10 +14,11 @@ namespace Calculator
     public partial class Calculator : Form
     {
         MySqlConnection connection = new MySqlConnection("datasource = localhost; port = 3306; username = root; password = frontis; database = calculations");
-        MySqlCommand command;
+        string connectionString = @"Server = localhost; Database = calculations; Uid=root; Pwd = frontis;";
         Double results = 0;
         String operation = "";
         string save;
+        int ID = 0;
 
         public Calculator()
         {
@@ -189,10 +190,25 @@ namespace Calculator
                     }
                     break;
             }
-            MySqlCommand cmd = new MySqlCommand("insert into calculations (calculation)Values('"+checker.Text+"')",connection);
-            connection.Open();
-            cmd.ExecuteNonQuery();
-            connection.Close();
+            using (MySqlConnection mysqlCon = new MySqlConnection(connectionString))
+            {
+                mysqlCon.Open();
+                MySqlCommand cmd = new MySqlCommand("calcAdd", mysqlCon);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("_ID", ID);
+                cmd.Parameters.AddWithValue("_calculation", checker.Text);
+                cmd.Parameters.AddWithValue("_Calcdate", DateTime.Now.ToString("MM-dd-yyyy"));
+                cmd.Parameters.AddWithValue("_Calctime", DateTime.Now.ToString("HH:mm:ss"));
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+                
+
+
+
+            //MySqlCommand cmd = new MySqlCommand("insert into calculations (calculation)Values('" + checker.Text + "')", connection);
+            //cmd.ExecuteNonQuery();
+
             populategrid();
         }
 
@@ -237,8 +253,6 @@ namespace Calculator
 
         public void populategrid()
         {
-            string selectQuery = "SELECT * FROM calculations";
-
             DataTable table = new DataTable();
             MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT *FROM calculations.calculations", connection);
             adapter.Fill(table);
